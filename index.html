@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surat untuk Siti - Desember 2025</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Library jsPDF untuk export PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #6a11cb;
+            --secondary-color: #2575fc;
+            --text-color: #333;
+            --bg-color: #f9f7fe;
+            --card-bg: #ffffff;
+            --border-color: #eaeaea;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --primary-color: #8a63d2;
+            --secondary-color: #4d8af0;
+            --text-color: #f0f0f0;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #333;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: var(--transition);
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            padding: 10px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+        }
+
+        .btn i {
+            font-size: 1.1rem;
+        }
+
+        /* Letter Styles */
+        .letter-container {
+            flex: 1;
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+
+        .letter-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .letter-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .letter-header .date {
+            font-style: italic;
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+        }
+
+        .letter-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .letter-content p {
+            margin-bottom: 25px;
+            text-align: justify;
+        }
+
+        .letter-content .highlight {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .signature {
+            text-align: right;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .signature .name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .signature .date {
+            font-style: italic;
+            color: var(--secondary-color);
+        }
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-color);
+            opacity: 0.8;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-heart {
+            color: #ff4757;
+            font-size: 1.1rem;
+            margin: 0 5px;
+        }
+
+        /* Modal untuk konfirmasi PDF */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .modal h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .modal p {
+            margin-bottom: 25px;
+            color: var(--text-color);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 10px 25px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .modal-btn-confirm {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .modal-btn-cancel {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .letter-container {
+                padding: 25px;
+            }
+            
+            .letter-header h1 {
+                font-size: 2rem;
+            }
+            
+            .letter-content {
+                font-size: 1rem;
+            }
+            
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .btn {
+                flex: 1;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .letter-container {
+                padding: 20px;
+            }
+            
+            .letter-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .letter-content {
+                font-size: 0.95rem;
+            }
+            
+            .signature .name {
+                font-size: 1.6rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .letter-container {
+            animation: fadeIn 1s ease-out;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+
+        /* Styles untuk print */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            
+            .letter-container, .letter-container * {
+                visibility: visible;
+            }
+            
+            .letter-container {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                box-shadow: none;
+                border-radius: 0;
+                padding: 20px;
+            }
+            
+            .btn, header, footer {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-envelope-open-text"></i>
+                <span>Surat untuk Siti</span>
+            </div>
+            <div class="controls">
+                <button class="btn" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                    <span>Mode Gelap</span>
+                </button>
+                <button class="btn btn-primary" id="printBtn">
+                    <i class="fas fa-print"></i>
+                    <span>Cetak Surat</span>
+                </button>
+                <button class="btn btn-primary" id="pdfBtn">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>Export PDF</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="letter-container" id="letterContent">
+            <div class="letter-header">
+                <h1>Selamat Ulang Tahun, Siti</h1>
+                <p class="date">Desember, 2025</p>
+            </div>
+            
+            <div class="letter-content">
+                <p>Haii Siti… bingung juga mulai dari mana hehe, kadang kalau mau nulis sesuatu yang berarti, justru kepala jadi kosong. tapi aku pakek bahasa indonesia aja, kalau pakek bahasa inggris rasanya terlalu kaku dan formal hehe. btw rasanya aneh gitu.</p>
+                
+                <p>Udah berapa bulan kita berteman, ngobrol hampir setiap hari, dan tiba-tiba kok nggak kerasa sekarang udah bulan Desember. Dan yapss, ini adalah bulan ulang tahunmu. rasanya kayak, "Oh iya, ternyata sejauh ini kita sudah sampai sini."</p>
+                
+                <p>Kalau dipikir-pikir, awal kita ngobrol itu beneran randomnya. nggak ada rencana, nggak ada ekspetasi. Dari musik Favorit, lagu-lagu lama, sampai obrolan yang kadang random nggak jelas arahnya hahaha. Tapi justru dari situ, obrolan kita terasa nyambung. Kita bisa bahas buku, film, game, hal-hal receh, sampai topik yang berat yang tiba - tiba muncul begitu saja. dan anehnya semua itu ngalir. tanpa sadar waktu jalan terus.</p>
+                
+                <p>Yang aku sadari, ngobrol sama kamu tuh nggak pernah terasa dipaksakan. Kita bisa lompat dari topik ringan ke hal serius tanpa canggung. Bisa bercanda, bisa diam sebentar, bisa mikir bareng. Dan itu jarang. Nggak semua orang nyaman berada di obrolan yang seperti itu menurut aku.</p>
+                
+                <p>Menurut aku Kamu itu tipe orang yang mikir Banyak, Kadang kebanyakan hehe. sampai kamu sendiri capek. Tapi justru di situ aku lihat kamu peduli. Kamu nggak asal lewat, nggak asal nerima sesuatu mentah - mentah. Kamu mikir, kamu ngerasa, kamu mempertanyakan, kamu mau ngerti, bukan cuma tahu. Dan jujur aja itu bukan hal yang semua orang mau atau sanggup lakukan.</p>
+                
+                <p>Kita juga nggak cuma ngobrol hal ringan dan menyenangkan gitu. Kita pernah masuk ke cerita hidup, masa lalu, luka, trauma, hal-hal yang nggak selalu enak buat diceritain ke orang lain. Tapi anehnya, obrolan itu nggak pernah terasa terlalu berat. Selalu ada ruang aman. Ada jedanya gitu. dan Ada tawa kecil di sela-selanya.</p>
+                
+                <p>Aku perhatiin caramu mendengarkan. Kadang kamu lebih banyak diam, tapi justru dari situ kelihatan kamu benar-benar hadir. Bukan sekedar nunggu giliran bicara. Aku juga tahu kamu punya ketakutan sendiri, batasan sendiri, dan cara sendiri buat melindungi diri. dan cara sendiri buat melindungi diri. itu nggak salah, Itu manusiawi menurut aku, dan itu berlaku juga buatku.</p>
+                
+                <p>Aku nulis ini bukan buat bikin semuanya terdengar besar atau berlebihan. Aku juga nggak punya maksud aneh-aneh. Aku cuma pengen kamu tahu satu hal sederhana, <span class="highlight">kamu itu berarti</span>. Cara kamu berpikir, cara kamu merasakan, cara kamu hadir dalam obrolan itu meninggalkan kesan yang berarti.</p>
+                
+                <p>Semoga di umur barumu ini, kamu bisa sedikit lebih pelan sama diri sendiri. Nggak selalu keras, nggak selalu nuntut diri sendiri harus kuat terus. Lebih percaya sama langkahmu, walau kadang ragu. Lebih berani milih diri sendiri tanpa ngerasa bersalah. Dan semoga kamu tetap dikelilingi hal-hal, dan orang-orang yang bikin kamu ngerasa aman, didengar, dan dihargai.</p>
+                
+                <p>Jadi, selamat ulang tahun di akhir Desember ini. Di hari yang memang khusus buat kamu. <span class="highlight">Happy birthday, and I really mean it</span>. Tetap jadi kamu, dengan segala pemikiranmu, overthinking-mu, dan versi dirimu yang mungkin nggak sempurna, tapi nyata. You don't have to be perfect to be meaningful.</p>
+                
+                <p>Aku sadar, aku nggak bisa ngasih hadiah yang mewah atau sesuatu yang kelihatan besar. Maaf ya. Jadi hadiahku cuma ini: tulisan ini, waktu yang aku luangin buat mikirin kamu, dan kata-kata yang jujur. <span class="highlight">This is all I have right now, but it comes from a real place.</span></p>
+                
+                <p>Dan kalau suatu hari kamu baca ini lagi, entah kapan, entah di versi hidupmu yang mana. aku harap kamu ngerasa satu hal sederhana, kamu diingat. In a good way. In a warm way.</p>
+                
+                <div class="signature">
+                    <div class="name">— Ilham</div>
+                    <div class="date">Desember, 2025</div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Dibuat dengan <span class="footer-heart">❤️</span> oleh Ilham | Desember 2025</p>
+        </footer>
+    </div>
+
+    <!-- Modal untuk konfirmasi PDF -->
+    <div class="modal" id="pdfModal">
+        <div class="modal-content">
+            <h3>Export ke PDF</h3>
+            <p>Anda akan mengekspor surat ini ke dalam format PDF. Apakah Anda ingin melanjutkan?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-cancel" id="cancelPdf">Batal</button>
+                <button class="modal-btn modal-btn-confirm" id="confirmPdf">Export PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        const themeText = themeToggle.querySelector('span');
+        
+        // Check for saved theme or prefer color scheme
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        
+        // Apply saved theme or system preference
+        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+            document.body.classList.add('dark-mode');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+            themeText.textContent = 'Mode Terang';
+        }
+        
+        // Toggle theme on button click
+        themeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                themeText.textContent = 'Mode Terang';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                themeText.textContent = 'Mode Gelap';
+                localStorage.setItem('theme', 'light');
+            }
+        });
+        
+        // Fitur Print
+        const printBtn = document.getElementById('printBtn');
+        printBtn.addEventListener('click', function() {
+            window.print();
+        });
+        
+        // Fitur Export PDF
+        const pdfBtn = document.getElementById('pdfBtn');
+        const pdfModal = document.getElementById('pdfModal');
+        const cancelPdf = document.getElementById('cancelPdf');
+        const confirmPdf = document.getElementById('confirmPdf');
+        
+        // Tampilkan modal saat tombol PDF diklik
+        pdfBtn.addEventListener('click', function() {
+            pdfModal.style.display = 'flex';
+        });
+        
+        // Tutup modal saat batal diklik
+        cancelPdf.addEventListener('click', function() {
+            pdfModal.style.display = 'none';
+        });
+        
+        // Tutup modal saat klik di luar modal
+        window.addEventListener('click', function(event) {
+            if (event.target === pdfModal) {
+                pdfModal.style.display = 'none';
+            }
+        });
+        
+        // Fungsi untuk export ke PDF
+        confirmPdf.addEventListener('click', async function() {
+            pdfModal.style.display = 'none';
+            
+            // Tampilkan pesan loading
+            const originalText = pdfBtn.innerHTML;
+            pdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Membuat PDF...</span>';
+            pdfBtn.disabled = true;
+            
+            try {
+                // Gunakan html2canvas untuk capture konten
+                const element = document.getElementById('letterContent');
+                
+                // Sembunyikan tombol sementara untuk screenshot
+                const originalDisplay = document.querySelector('.controls').style.display;
+                document.querySelector('.controls').style.display = 'none';
+                
+                // Tambahkan class untuk print sementara
+                element.classList.add('printing');
+                
+                // Tunggu sejenak untuk memastikan DOM diperbarui
+                await new Promise(resolve => setTimeout(resolve, 100));
+                
+                // Capture elemen dengan html2canvas
+                const canvas = await html2canvas(element, {
+                    scale: 2, // Kualitas tinggi
+                    useCORS: true,
+                    backgroundColor: '#ffffff'
+                });
+                
+                // Kembalikan tampilan tombol
+                document.querySelector('.controls').style.display = originalDisplay;
+                element.classList.remove('printing');
+                
+                // Konversi canvas ke data URL
+                const imgData = canvas.toDataURL('image/png');
+                
+                // Buat PDF dengan jsPDF
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+                
+                // Dapatkan dimensi halaman A4
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+                
+                // Hitung dimensi gambar untuk memenuhi halaman
+                const imgWidth = pageWidth - 20; // Margin 10mm kiri dan kanan
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                
+                // Tambahkan judul di atas surat
+                pdf.setFontSize(20);
+                pdf.setFont('helvetica', 'bold');
+                pdf.text('Surat untuk Siti', pageWidth / 2, 15, { align: 'center' });
+                
+                pdf.setFontSize(12);
+                pdf.setFont('helvetica', 'normal');
+                pdf.text('Desember 2025', pageWidth / 2, 22, { align: 'center' });
+                
+                // Tambahkan gambar ke PDF
+                pdf.addImage(imgData, 'PNG', 10, 30, imgWidth, imgHeight);
+                
+                // Tambahkan halaman baru jika konten terlalu panjang
+                let heightLeft = imgHeight;
+                let position = 30;
+                
+                while (heightLeft >= pageHeight - 40) {
+                    position = heightLeft - imgHeight + 40;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+                
+                // Tambahkan footer
+                const pageCount = pdf.internal.getNumberOfPages();
+                for (let i = 1; i <= pageCount; i++) {
+                    pdf.setPage(i);
+                    pdf.setFontSize(10);
+                    pdf.setTextColor(150);
+                    pdf.text(
+                        `Halaman ${i} dari ${pageCount}`,
+                        pageWidth / 2,
+                        pageHeight - 10,
+                        { align: 'center' }
+                    );
+                }
+                
+                // Simpan PDF
+                pdf.save('Surat-untuk-Siti-Desember-2025.pdf');
+                
+            } catch (error) {
+                console.error('Error creating PDF:', error);
+                alert('Terjadi kesalahan saat membuat PDF. Silakan coba lagi.');
+            } finally {
+                // Kembalikan tombol ke keadaan semula
+                pdfBtn.innerHTML = originalText;
+                pdfBtn.disabled = false;
+            }
+        });
+        
+        // Add subtle animation to paragraphs
+        document.addEventListener('DOMContentLoaded', function() {
+            const paragraphs = document.querySelectorAll('.letter-content p');
+            
+            paragraphs.forEach((p, index) => {
+                p.style.opacity = '0';
+                p.style.transform = 'translateY(10px)';
+                p.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                
+                setTimeout(() => {
+                    p.style.opacity = '1';
+                    p.style.transform = 'translateY(0)';
+                }, 100 + (index * 100));
+            });
+        });
+    </script>
+</body>
+</html>
