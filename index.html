@@ -115,6 +115,12 @@
             border: none;
         }
 
+        .btn-special {
+            background: linear-gradient(135deg, #ff6b6b, #ffa726);
+            color: white;
+            border: none;
+        }
+
         .btn i {
             font-size: 1.1rem;
         }
@@ -128,6 +134,7 @@
             box-shadow: var(--shadow);
             margin-bottom: 30px;
             transition: var(--transition);
+            position: relative;
         }
 
         .letter-header {
@@ -170,6 +177,7 @@
             margin-top: 50px;
             padding-top: 20px;
             border-top: 1px dashed var(--border-color);
+            margin-bottom: 40px;
         }
 
         .signature .name {
@@ -182,6 +190,47 @@
         .signature .date {
             font-style: italic;
             color: var(--secondary-color);
+        }
+
+        /* Countdown Button Container */
+        .countdown-container {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .countdown-message {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        .countdown-timer {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .hidden-btn {
+            opacity: 0.5;
+            cursor: not-allowed !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hidden-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
         }
 
         /* Footer Styles */
@@ -233,6 +282,7 @@
         .modal p {
             margin-bottom: 25px;
             color: var(--text-color);
+            line-height: 1.6;
         }
 
         .modal-buttons {
@@ -264,6 +314,73 @@
 
         .modal-btn:hover {
             transform: translateY(-2px);
+        }
+
+        /* Popup untuk random message */
+        .message-popup {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            max-width: 350px;
+            background: linear-gradient(135deg, #ff6b6b, #ffa726);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+            animation: slideIn 0.5s ease-out;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .message-content {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .message-close {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .message-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .message-footer {
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 10px;
+            font-style: normal;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) translateX(0);
+            }
         }
 
         /* Responsive Styles */
@@ -298,6 +415,18 @@
             .btn {
                 flex: 1;
                 justify-content: center;
+                min-width: 140px;
+            }
+            
+            .message-popup {
+                bottom: 20px;
+                right: 20px;
+                left: 20px;
+                max-width: none;
+            }
+            
+            .countdown-timer {
+                font-size: 1.3rem;
             }
         }
 
@@ -324,6 +453,17 @@
             
             .btn {
                 width: 100%;
+            }
+            
+            .message-popup {
+                bottom: 15px;
+                right: 15px;
+                left: 15px;
+                padding: 20px;
+            }
+            
+            .countdown-timer {
+                font-size: 1.2rem;
             }
         }
 
@@ -371,7 +511,7 @@
                 padding: 20px;
             }
             
-            .btn, header, footer {
+            .btn, header, footer, .message-popup, .countdown-container {
                 display: none !important;
             }
         }
@@ -435,6 +575,20 @@
                     <div class="name">Ilham</div>
                     <div class="date">Desember, 2025</div>
                 </div>
+                
+                <!-- Countdown dan Tombol Message -->
+                <div class="countdown-container" id="countdownContainer">
+                    <div class="countdown-message" id="countdownMessage">
+                        Ambil waktu sejenak untuk meresapi surat ini...
+                    </div>
+                    <div class="countdown-timer" id="countdownTimer">
+                        10 detik
+                    </div>
+                    <button class="btn btn-special hidden-btn" id="specialMessageBtn">
+                        <i class="fas fa-heart"></i>
+                        <span>Pesan Khusus untuk Siti</span>
+                    </button>
+                </div>
             </div>
         </main>
 
@@ -455,7 +609,55 @@
         </div>
     </div>
 
+    <!-- Popup untuk random message -->
+    <div class="message-popup" id="messagePopup">
+        <button class="message-close" id="closeMessage">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="message-content" id="messageText">
+            <!-- Pesan akan dimuat di sini -->
+        </div>
+        <div class="message-footer" id="messageFooter">
+            <!-- Footer pesan akan dimuat di sini -->
+        </div>
+    </div>
+
     <script>
+        // Daftar random messages
+        const messages = [
+            "Siti, if today feels heavy, you don't have to explain it to anyone.",
+            "Being tired doesn't mean you're weak, Siti. Sometimes it just means you care too much.",
+            "It's okay, Siti. Not everything has to be figured out today.",
+            "There's a version of you, Siti, doing the best she can. And that's enough.",
+            "If you're feeling alone right now, Siti, this is just a small reminder: you're not completely alone.",
+            "You're allowed to pause, Siti. The world won't fall apart.",
+            "Not every thought needs an answer, Siti. Some just need company.",
+            "If you're reading this late at night, Siti, I hope you sleep a little lighter tonight.",
+            "You're not strange, Siti. You just think deeper than most people.",
+            "You don't have to be productive today, Siti. Surviving counts too.",
+            "I know you overthink a lot, Siti. Right now, just take a breath.",
+            "There are people who feel safe talking to you, Siti. And that's rare.",
+            "You don't need to be your best version today, Siti. An honest one is enough.",
+            "If you're doubting yourself, Siti, remember: doubt means you care.",
+            "You deserve good things, Siti. Even on ordinary days."
+        ];
+
+        // Daftar penutup messages
+        const closingMessages = [
+            "This is the last message, Siti. Be a little kinder to yourself today.",
+            "Siti, you don't have to be okay all the time. And that's okay."
+        ];
+
+        // Variabel untuk melacak pesan yang sudah ditampilkan
+        let shownMessages = [];
+        let shownClosingMessages = [];
+        let messageCount = 0;
+        
+        // Variabel untuk countdown
+        let countdownActive = true;
+        let countdownTime = 10; // 10 detik
+        let countdownInterval;
+
         // Theme Toggle Functionality
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = themeToggle.querySelector('i');
@@ -487,6 +689,129 @@
                 themeIcon.classList.add('fa-moon');
                 themeText.textContent = 'Mode Gelap';
                 localStorage.setItem('theme', 'light');
+            }
+        });
+        
+        // Fungsi untuk memulai countdown
+        function startCountdown() {
+            const countdownTimer = document.getElementById('countdownTimer');
+            const specialMessageBtn = document.getElementById('specialMessageBtn');
+            const countdownMessage = document.getElementById('countdownMessage');
+            
+            countdownInterval = setInterval(function() {
+                countdownTime--;
+                countdownTimer.textContent = `${countdownTime} detik`;
+                
+                if (countdownTime <= 0) {
+                    clearInterval(countdownInterval);
+                    countdownActive = false;
+                    
+                    // Aktifkan tombol
+                    specialMessageBtn.classList.remove('hidden-btn');
+                    specialMessageBtn.disabled = false;
+                    specialMessageBtn.style.cursor = 'pointer';
+                    specialMessageBtn.style.opacity = '1';
+                    
+                    // Update pesan
+                    countdownMessage.textContent = "Sekarang kamu bisa membuka pesan khusus untuk Siti";
+                    countdownTimer.textContent = "Tombol sudah terbuka!";
+                    countdownTimer.style.color = "var(--secondary-color)";
+                }
+            }, 1000);
+        }
+        
+        // Fitur Random Message
+        const specialMessageBtn = document.getElementById('specialMessageBtn');
+        const messagePopup = document.getElementById('messagePopup');
+        const messageText = document.getElementById('messageText');
+        const messageFooter = document.getElementById('messageFooter');
+        const closeMessage = document.getElementById('closeMessage');
+        
+        // Fungsi untuk mendapatkan random message
+        function getRandomMessage() {
+            let availableMessages;
+            let messageCategory = 'regular';
+            
+            // Jika sudah menampilkan semua pesan reguler, reset
+            if (shownMessages.length >= messages.length) {
+                shownMessages = [];
+            }
+            
+            // Jika sudah menampilkan 5 pesan reguler, beri peluang untuk pesan penutup
+            if (messageCount >= 5 && shownClosingMessages.length < closingMessages.length && Math.random() > 0.7) {
+                availableMessages = closingMessages.filter(msg => !shownClosingMessages.includes(msg));
+                messageCategory = 'closing';
+            } else {
+                availableMessages = messages.filter(msg => !shownMessages.includes(msg));
+            }
+            
+            // Jika tidak ada pesan yang tersedia, reset
+            if (availableMessages.length === 0) {
+                if (messageCategory === 'closing') {
+                    shownClosingMessages = [];
+                    availableMessages = closingMessages;
+                } else {
+                    shownMessages = [];
+                    availableMessages = messages;
+                }
+            }
+            
+            // Pilih pesan random
+            const randomIndex = Math.floor(Math.random() * availableMessages.length);
+            const selectedMessage = availableMessages[randomIndex];
+            
+            // Tambahkan ke daftar pesan yang sudah ditampilkan
+            if (messageCategory === 'closing') {
+                shownClosingMessages.push(selectedMessage);
+            } else {
+                shownMessages.push(selectedMessage);
+                messageCount++;
+            }
+            
+            return {
+                text: selectedMessage,
+                category: messageCategory
+            };
+        }
+        
+        // Tampilkan random message saat tombol khusus diklik
+        specialMessageBtn.addEventListener('click', function() {
+            if (!countdownActive) {
+                const messageData = getRandomMessage();
+                messageText.textContent = messageData.text;
+                
+                // Atur footer berdasarkan kategori pesan
+                if (messageData.category === 'closing') {
+                    messageFooter.textContent = "— Pesan khusus untuk hari ini";
+                    messagePopup.style.background = "linear-gradient(135deg, #6a11cb, #2575fc)";
+                } else {
+                    messageFooter.textContent = "— Untuk Siti";
+                    messagePopup.style.background = "linear-gradient(135deg, #ff6b6b, #ffa726)";
+                }
+                
+                // Tampilkan popup
+                messagePopup.style.display = 'block';
+                
+                // Sembunyikan otomatis setelah 8 detik (kecuali untuk pesan penutup)
+                if (messageData.category !== 'closing') {
+                    setTimeout(() => {
+                        if (messagePopup.style.display === 'block') {
+                            messagePopup.style.display = 'none';
+                        }
+                    }, 8000);
+                }
+            }
+        });
+        
+        // Tutup popup saat tombol close diklik
+        closeMessage.addEventListener('click', function() {
+            messagePopup.style.display = 'none';
+        });
+        
+        // Tutup popup saat klik di luar popup
+        window.addEventListener('click', function(event) {
+            if (event.target === messagePopup) {
+                messagePopup.style.display = 'none';
             }
         });
         
@@ -636,6 +961,13 @@
                     p.style.transform = 'translateY(0)';
                 }, 100 + (index * 100));
             });
+            
+            // Nonaktifkan tombol khusus di awal
+            const specialMessageBtn = document.getElementById('specialMessageBtn');
+            specialMessageBtn.disabled = true;
+            
+            // Mulai countdown saat halaman dimuat
+            startCountdown();
         });
     </script>
 </body>
